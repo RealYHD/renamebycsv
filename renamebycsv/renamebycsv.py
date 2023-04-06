@@ -31,6 +31,7 @@ def rename(
     current: str,
     become: str,
     dry: bool,
+    keep_extension: bool,
 ):
     replacement_dict = {}
     with open(csv_path, "r") as csv_fd:
@@ -54,6 +55,8 @@ def rename(
             os.path.dirname(subitem_path),
             re.sub(match.re, replacement_dict[match.group(1)], subitem),
         )
+        if keep_extension:
+            objective += os.path.splitext(subitem_path)[1]
         logging.info(f'Will rename "{original}" to "{os.path.basename(objective)}"')
         if os.path.exists(objective):
             logging.error(
@@ -119,6 +122,13 @@ def main():
         type=str,
         default="INFO",
     )
+    argparser.add_argument(
+        "-k",
+        "--keep-extension",
+        help="Keeps the original file's extension by appending it to the end of the "
+        "name defined by the CSV.",
+        action="store_true",
+    )
 
     args = argparser.parse_args()
     logging.basicConfig(
@@ -126,7 +136,9 @@ def main():
         level=args.verbosity.upper(),
     )
     candidates = find_all_candidates(args.input_dir, args.regex, args.recursive)
-    rename(args.csv, candidates, args.current, args.become, args.dry)
+    rename(
+        args.csv, candidates, args.current, args.become, args.dry, args.keep_extension
+    )
 
 
 if __name__ == "__main__":
