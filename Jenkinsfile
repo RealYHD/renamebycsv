@@ -15,7 +15,7 @@ pipeline {
         stage("publish") {
             steps {
                 withCredentials([usernamePassword(credentialsId: 'rs-git-package-registry-ydeng', passwordVariable: 'PASS', usernameVariable: 'USER')]) {
-                    sh "python -m twine upload --repository-url https://git.reslate.systems -u ${USER} -p ${PASS} --non-interactive --disable-progress-bar --verbose dist/*"
+                    sh "python -m twine upload --repository-url https://git.reslate.systems/api/packages/${USER}/pypi -u ${USER} -p ${PASS} --non-interactive --disable-progress-bar --verbose dist/*"
                 }
             }
         }
