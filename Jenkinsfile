@@ -1,0 +1,24 @@
+pipeline {
+    agent any
+    stages {
+        stage("install") {
+            steps {
+                sh 'conda env update --file environment.yml'
+                sh 'echo "conda activate renamebycsv" >> ~/.bashrc'
+            }
+        }
+        stage("build") {
+            steps {
+                sh "python -m build"
+            }
+        }
+        stage("publish") {
+            steps {
+                withCredentials([usernamePassword(credentialsId: 'rs-git-package-registry-ydeng', passwordVariable: 'PASS', usernameVariable: 'USER')]) {
+                    // some block
+                    sh "pip -m twine upload --repository-url https://git.reslate.systems -u ${USER} -p ${PASS} --non-interactive --disable-progress-bar --verbose dist/*"
+            }
+            }
+        }
+    }
+}
