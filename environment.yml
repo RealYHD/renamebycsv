@@ -8,3 +8,4 @@ dependencies:
   - python=3.11.3
   - setuptools=67.6.1
   - twine=4.0.2
+  - cryptography=38.0.4
