@@ -70,6 +70,13 @@ def rename(
         logging.info("No file names were modified.")
 
 
+def run(args):
+    candidates = find_all_candidates(args.input_dir, args.regex, args.recursive)
+    rename(
+        args.csv, candidates, args.current, args.become, args.dry, args.keep_extension
+    )
+
+
 def main():
     program_name = "renamebycsv"
     argparser = argparse.ArgumentParser(
@@ -135,10 +142,7 @@ def main():
         format="[%(filename)s %(asctime)s - %(levelname)s] %(message)s",
         level=args.verbosity.upper(),
     )
-    candidates = find_all_candidates(args.input_dir, args.regex, args.recursive)
-    rename(
-        args.csv, candidates, args.current, args.become, args.dry, args.keep_extension
-    )
+    run(args)
 
 
 if __name__ == "__main__":
