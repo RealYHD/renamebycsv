@@ -1,10 +1,15 @@
 pipeline {
     agent any
     stages {
+        stage("clean") {
+            steps {
+                sh 'rm -rf ./dist/*'
+            }
+        }
         stage("install") {
             steps {
-                sh 'conda env update --file environment.yml'
-                sh 'echo "conda activate renamebycsv" >> ~/.bashrc'
+                sh 'mamba env update --file environment.yml'
+                sh 'echo "mamba activate renamebycsv" >> ~/.bashrc'
             }
         }
         stage("build") {
@@ -12,9 +17,19 @@ pipeline {
                 sh "python -m build"
             }
         }
-        stage("publish") {
+        stage("test") {
+            steps {
+                sh "pip install dist/*.whl"
+            }
+        }
+        stage("archive") {
+            steps {
+                archiveArtifacts artifacts: 'dist/*.tar.gz, dist/*.whl'
+            }
+        }
+        stage("publish package") {
             when {
-            branch '**/master'
+                branch '**/main'
             }
             steps {
                 withCredentials([usernamePassword(credentialsId: 'rs-git-package-registry-ydeng', passwordVariable: 'PASS', usernameVariable: 'USER')]) {
