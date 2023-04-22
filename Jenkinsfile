@@ -20,6 +20,7 @@ pipeline {
         stage("test") {
             steps {
                 sh "pip install dist/*.whl"
+                sh "renamebycsv -h"
             }
         }
         stage("archive") {
