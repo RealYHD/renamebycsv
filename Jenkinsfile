@@ -19,7 +19,7 @@ pipeline {
         }
         stage("test") {
             steps {
-                sh "pip install dist/*.whl"
+                sh "pip install dist/*.whl --force-reinstall"
                 sh "renamebycsv -h"
             }
         }
