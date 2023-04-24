@@ -3,7 +3,7 @@ channels:
   - anaconda
   - conda-forge
 dependencies:
-  - python-build=0.10.0
+  - python-build=0.7
   - pytest=7.2
   - python=3.11
   - setuptools=67.6
