@@ -3,9 +3,9 @@ channels:
   - anaconda
   - conda-forge
 dependencies:
-  - build=0.7
+  - build=0.10
   - pytest=7.2
   - python=3.11
   - setuptools=67.6
   - twine=4.0
-  - openssl=22.1
+  - cryptography=38.0.4
