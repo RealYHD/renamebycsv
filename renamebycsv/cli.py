@@ -31,6 +31,7 @@ def rename(
     current: str,
     become: str,
     dry: bool,
+    extension: str,
     keep_extension: bool,
 ):
     replacement_dict = {}
@@ -62,6 +63,8 @@ def rename(
             os.path.dirname(subitem_path),
             re.sub(match.re, replacement_dict[match.group(1)], subitem.strip()),
         )
+        if extension:
+            objective += ("." if not extension.startswith(".") else "") + extension
         if keep_extension:
             objective += os.path.splitext(subitem_path)[1]
         logging.info(f'Will rename "{original}" to "{os.path.basename(objective)}"')
@@ -80,7 +83,13 @@ def rename(
 def run(args):
     candidates = find_all_candidates(args.input_dir, args.regex, args.recursive)
     rename(
-        args.csv, candidates, args.current, args.become, args.dry, args.keep_extension
+        args.csv,
+        candidates,
+        args.current,
+        args.become,
+        args.dry,
+        args.extension,
+        args.keep_extension,
     )
 
 
@@ -91,38 +100,38 @@ def main():
     )
     argparser.add_argument(
         "input_dir",
-        help="The directory containing the items that is to be renamed",
+        help="The directory containing the items that is to be renamed.",
         metavar="I",
     )
     argparser.add_argument(
         "regex",
         help="The regex to apply to each file name. The first capture group is used to "
-        "perform the replacement",
+        "perform the replacement.",
         metavar="R",
     )
     argparser.add_argument(
         "csv",
-        help="The CSV to use as the dictionary for the substitutions in file name",
+        help="The CSV to use as the dictionary for the substitutions in file name.",
         metavar="C",
     )
     argparser.add_argument(
         "current",
-        help="The column header to look for the text matched by the regex",
+        help="The column header to look for the text matched by the regex.",
         metavar="F",
     )
     argparser.add_argument(
-        "become", help="The column header to replace the regex match", metavar="T"
+        "become", help="The column header to replace the regex match.", metavar="T"
     )
     argparser.add_argument(
         "-r",
         "--recursive",
-        help="Perform renaming action recursively",
+        help="Perform renaming action recursively.",
         action="store_true",
     )
     argparser.add_argument(
         "-f",
         "--force",
-        help="Overwrite files if file already exists",
+        help="Overwrite files if file already exists.",
         action="store_true",
     )
     argparser.add_argument(
@@ -131,17 +140,28 @@ def main():
     argparser.add_argument(
         "-V",
         "--verbosity",
-        help="Set the logging verbosity",
+        help="Set the logging verbosity.",
         required=False,
         type=str,
         default="INFO",
     )
     argparser.add_argument(
+        "-e",
+        "--extension",
+        help='Sets the new file extension after the renaming. Use empty string ("") '
+        "to not add extension. Will use empty string by default.",
+        type=str,
+        default="",
+        required=False,
+    )
+    argparser.add_argument(
         "-k",
         "--keep-extension",
-        help="Keeps the original file's extension by appending it to the end of the "
-        "name defined by the CSV",
+        help="Keeps the OS recognized extension from the original filename. Will append "
+        'to end of argument given by "-e" or "--extension".',
         action="store_true",
+        default=False,
+        required=False,
     )
 
     args = argparser.parse_args()

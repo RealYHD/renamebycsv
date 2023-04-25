@@ -15,7 +15,9 @@
                 "${workspaceFolder}/tests/resources/groups.csv",
                 "target",
                 "replaced",
-                "-d"
+                "-d",
+                "-e",
+                "abc"
             ],
             "justMyCode": true
         }
