@@ -50,10 +50,17 @@ def rename(
                 raise Exception("Duplicate current key.")
             replacement_dict[row[current_col_ind]] = row[become_col_ind]
     for subitem_path, subitem, match in candidates:
+        if match.group(1) not in replacement_dict:
+            logging.warning(
+                'Group "%s" was not matched to any row in the provided CSV. '
+                "Skipping...",
+                match.group(1)
+            )
+            continue
         original = subitem_path
         objective = os.path.join(
             os.path.dirname(subitem_path),
-            re.sub(match.re, replacement_dict[match.group(1)], subitem),
+            re.sub(match.re, replacement_dict[match.group(1)], subitem.strip()),
         )
         if keep_extension:
             objective += os.path.splitext(subitem_path)[1]
