@@ -157,8 +157,8 @@ def main():
     argparser.add_argument(
         "-k",
         "--keep-extension",
-        help="Keeps the OS recognized extension from the original filename. Will append "
-        'to end of argument given by "-e" or "--extension".',
+        help="Keeps the OS recognized extension from the original filename. Will "
+        'append to end of argument given by "-e" or "--extension".',
         action="store_true",
         default=False,
         required=False,
