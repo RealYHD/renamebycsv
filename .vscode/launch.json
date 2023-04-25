@@ -17,7 +17,8 @@
                 "replaced",
                 "-d",
                 "-e",
-                "abc"
+                "abc",
+                "-k"
             ],
             "justMyCode": true
         }
