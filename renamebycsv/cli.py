@@ -54,7 +54,7 @@ def rename(
             logging.warning(
                 'Group "%s" was not matched to any row in the provided CSV. '
                 "Skipping...",
-                match.group(1)
+                match.group(1),
             )
             continue
         original = subitem_path
@@ -87,31 +87,31 @@ def run(args):
 def main():
     program_name = "renamebycsv"
     argparser = argparse.ArgumentParser(
-        program_name, "Rename all files by using a CSV as a dictionary."
+        program_name, description="Rename all files by using a CSV as a dictionary."
     )
     argparser.add_argument(
         "input_dir",
-        help="The directory containing the items that is to be renamed.",
+        help="The directory containing the items that is to be renamed",
         metavar="I",
     )
     argparser.add_argument(
         "regex",
         help="The regex to apply to each file name. The first capture group is used to "
-        "perform the replacement.",
+        "perform the replacement",
         metavar="R",
     )
     argparser.add_argument(
         "csv",
-        help="The CSV to use as the dictionary for the substitutions in file name.",
+        help="The CSV to use as the dictionary for the substitutions in file name",
         metavar="C",
     )
     argparser.add_argument(
         "current",
-        help="The column header to look for the text matched by the regex.",
+        help="The column header to look for the text matched by the regex",
         metavar="F",
     )
     argparser.add_argument(
-        "become", help="The column header to replace the regex match.", metavar="T"
+        "become", help="The column header to replace the regex match", metavar="T"
     )
     argparser.add_argument(
         "-r",
@@ -140,7 +140,7 @@ def main():
         "-k",
         "--keep-extension",
         help="Keeps the original file's extension by appending it to the end of the "
-        "name defined by the CSV.",
+        "name defined by the CSV",
         action="store_true",
     )
 
