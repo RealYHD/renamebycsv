@@ -7,7 +7,7 @@ from renamebycsv.renamer import find_all_candidates, rename_by_csv
 
 
 def run(args):
-    candidates = find_all_candidates(args.input_dir, args.regex, args.recursive)
+    candidates = find_all_candidates(args.input_dir, args.pattern, args.recursive)
     rename_by_csv(
         args.csv,
         candidates,
