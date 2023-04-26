@@ -32,3 +32,11 @@ This program makes heavy use of REGEX, also known as Regular Expression to give 
 Let's say we have files `run325-a-1.vcf`, `run326-b-2.vcf`, and `run327-b-3.vcf`. If we know that all that matters is the `1` after the `run[numbers]-[character]-`, we can write `run\d+-\w-(\d).vcf` which will match with all 3 of the above examples, and select the last digit. The program can then use a given CSV to look up the selected digits and replace the name with what is given by the CSV.
 
 For learning and testing your own REGEX, checkout [regex101.com](https://regex101.com/), which allows you to write the strings that you're trying to match, and the REGEX. It will show you live which parts of the strings match to what, if any parts match.
+
+## Not Working?
+
+If the program is not working the way you would like it, try running the program in `-v DEBUG` mode which increases verbosity. Typically, files not being renamed can be attributed to one of two problems:
+
+1. It's looking in the wrong directory. The solution would be to double check that the directory it's looking in (printed by the program each run) is correct. If not, try adding quotes around the path in the command line.
+
+2. The provided REGEX pattern isn't matching to any of the files. In this case, test one or two of the files at [regex101.com](https://regex101.com/) with your pattern.
