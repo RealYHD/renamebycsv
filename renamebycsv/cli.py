@@ -30,7 +30,7 @@ def main():
         metavar="I",
     )
     argparser.add_argument(
-        "regex",
+        "pattern",
         help="The regex to apply to each file name. The first capture group is used to "
         "perform the replacement.",
         metavar="R",
