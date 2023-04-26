@@ -6,6 +6,12 @@ from typing import Iterable
 
 
 def find_all_candidates(input_dir: str, regex: str, recursive: bool):
+    logging.info(
+        'Searching "%s" for files that match "%s" %s',
+        input_dir,
+        regex,
+        "recursively" if recursive else "non-recursively",
+    )
     results = []
     for subitem in os.listdir(input_dir):
         subitem_path = os.path.join(input_dir, subitem)
@@ -19,6 +25,13 @@ def find_all_candidates(input_dir: str, regex: str, recursive: bool):
                 continue
             results.append((subitem_path, subitem, match))
             logging.debug(f'Collecting "{subitem}"...')
+    if len(results) < 1:
+        logging.info(
+            'No results found matching "%s" in "%s". Please double check your REGEX '
+            "pattern and directory being searched.",
+            regex,
+            input_dir,
+        )
     return results
 
 
