@@ -9,3 +9,4 @@ dependencies:
   - setuptools=67.6
   - twine=4.0
   - cryptography=38.0.4
+prefix: ./env

@@ -1,19 +1,14 @@
 pipeline {
     agent any
     stages {
-        stage("clean") {
-            steps {
-                sh 'rm -rf ./dist/*'
-            }
-        }
         stage("install") {
             steps {
-                sh 'mamba env update --file environment.yml'
-                sh 'echo "mamba activate renamebycsv" >> ~/.bashrc'
+                sh 'mamba env update --file environment.yml --prefix ./env || mamba env create --force --file environment.yml --prefix ./env'
             }
         }
         stage("build") {
             steps {
+                sh 'rm -rf ./dist/*'
                 sh "python -m build"
             }
         }
@@ -25,7 +20,7 @@ pipeline {
         }
         stage("archive") {
             steps {
-                archiveArtifacts artifacts: 'dist/*.tar.gz, dist/*.whl'
+                archiveArtifacts artifacts: 'dist/*.tar.gz, dist/*.whl', fingerprint: true, followSymlinks: false, onlyIfSuccessful: true
             }
         }
         stage("publish package") {
