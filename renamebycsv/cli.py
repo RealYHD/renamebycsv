@@ -8,15 +8,16 @@ from renamebycsv.renamer import find_all_candidates, rename_by_csv
 
 def run(args):
     candidates = find_all_candidates(args.input_dir, args.pattern, args.recursive)
-    rename_by_csv(
-        args.csv,
-        candidates,
-        args.current,
-        args.become,
-        args.dry,
-        args.extension,
-        args.keep_extension,
-    )
+    if len(candidates):
+        rename_by_csv(
+            args.csv,
+            candidates,
+            args.current,
+            args.become,
+            args.dry,
+            args.extension,
+            args.keep_extension,
+        )
 
 
 def main():

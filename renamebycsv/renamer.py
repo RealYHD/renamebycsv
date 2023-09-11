@@ -32,6 +32,8 @@ def find_all_candidates(input_dir: str, regex: str, recursive: bool):
             regex,
             input_dir,
         )
+    else:
+        logging.info("Collected %d files to rename.", len(results))
     return results
 
 
@@ -51,6 +53,10 @@ def rename_by_csv(
         become_col_ind = None
         for row in reader:
             if current_col_ind is None and become_col_ind is None:
+                if current not in row:
+                    logging.error("\"%s\" not in header %s.", current, list(row))
+                if become not in row:
+                    logging.error("\"%s\" not in header %s.", become, list(row))
                 current_col_ind = row.index(current)
                 become_col_ind = row.index(become)
                 continue
@@ -80,7 +86,7 @@ def rename_by_csv(
         logging.info(f'Will rename "{original}" to "{os.path.basename(objective)}"')
         if os.path.exists(objective):
             logging.error(
-                f'Path at "{objective}" exists, not continuing. '
+                f'Path at "{objective}" already exists, not continuing. '
                 "Use -f to overwrite instead of stopping."
             )
             exit(1)
