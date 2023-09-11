@@ -64,6 +64,7 @@ def rename_by_csv(
                 row[current_col_ind] in replacement_dict
                 and replacement_dict[row[current_col_ind]] != row[become_col_ind]
             ):
+                # Check if there's a duplicate key for different values.
                 raise Exception("Duplicate current key.")
             replacement_dict[row[current_col_ind]] = row[become_col_ind]
     for subitem_path, subitem, match in candidates:
