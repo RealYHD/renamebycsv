@@ -24,13 +24,14 @@ pipeline {
             }
         }
         stage("publish package") {
+            environment {
+                CREDS = credentials('rs-git-package-registry-ydeng')
+            }
             when {
                 branch '**/master'
             }
             steps {
-                withCredentials([usernamePassword(credentialsId: 'rs-git-package-registry-ydeng', passwordVariable: 'PASS', usernameVariable: 'USER')]) {
-                    sh returnStatus: true, script: 'python -m twine upload --repository-url https://git.reslate.systems/api/packages/${USER}/pypi -u ${USER} -p ${PASS} --non-interactive --disable-progress-bar --verbose dist/*'
-                }
+                sh returnStatus: true, script: 'python -m twine upload --repository-url https://git.reslate.systems/api/packages/${CREDS_USR}/pypi -u ${CREDS_USR} -p ${CREDS_PSW} --non-interactive --disable-progress-bar --verbose dist/*'
             }
         }
     }
