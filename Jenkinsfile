@@ -1,9 +1,15 @@
 pipeline {
-    agent any
+    agent {
+        kubernetes {
+            cloud 'rsys-devel'
+            defaultContainer 'pip'
+            inheritFrom 'pip'
+        }
+    }
     stages {
         stage("install") {
             steps {
-                sh 'mamba env update --file environment.yml --prefix ./env || mamba env create --force --file environment.yml --prefix ./env'
+                sh 'pip install -r requirements.txt'
             }
         }
         stage("build") {
